@@ -2379,7 +2379,13 @@
           </div>
 
           <div class="tabs" id="tabs">
-            <button class="tab-btn active" data-tab="trend">
+            <button class="tab-btn active" data-tab="dinamik">
+              <svg class="ico" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" />
+              </svg>Dinamik
+            </button>
+            <button class="tab-btn" data-tab="trend">
               <svg class="ico" viewBox="0 0 24 24">
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
                 <polyline points="17 6 23 6 23 12" />
@@ -2456,15 +2462,73 @@
                 <path d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4z" />
               </svg>Jarak vs RT
             </button>
-            <button class="tab-btn" data-tab="dinamik">
-              <svg class="ico" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" />
-              </svg>Dinamik
-            </button>
           </div>
 
-          <div class="tab-panel active" id="panel-trend">
+          <div class="tab-panel active" id="panel-dinamik">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" />
+                  </svg>Graf Dinamik — Pilih X & Y Sendiri
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartDynamic"></div>
+                  <button class="num-toggle" data-chart="chartDynamic" type="button">
+                    <span class="num-icon">🔢</span><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="dyn-controls">
+                <div class="dyn-ctrl">
+                  <label>
+                    <svg class="ico" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    X-Axis (Dimensi)
+                  </label>
+                  <select id="dynX" class="dyn-select"></select>
+                </div>
+                <div class="dyn-ctrl">
+                  <label>
+                    <svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/></svg>
+                    Y-Axis (Metrik)
+                  </label>
+                  <select id="dynY" class="dyn-select"></select>
+                </div>
+                <div class="dyn-ctrl">
+                  <label>Susun</label>
+                  <select id="dynSort" class="dyn-select">
+                    <option value="value_desc">Nilai Tertinggi</option>
+                    <option value="value_asc">Nilai Terendah</option>
+                    <option value="label_asc">Label (A→Z)</option>
+                  </select>
+                </div>
+                <div class="dyn-ctrl">
+                  <label>Top N</label>
+                  <select id="dynTopN" class="dyn-select">
+                    <option value="0">Semua</option>
+                    <option value="5">Top 5</option>
+                    <option value="10">Top 10</option>
+                    <option value="15">Top 15</option>
+                    <option value="20">Top 20</option>
+                    <option value="30">Top 30</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="chart-wrap-lg">
+                <canvas id="chartDynamic"></canvas>
+              </div>
+
+              <div class="dyn-info" id="dynInfo">
+                <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>Memuatkan...</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-trend">
             <div class="card">
               <div class="card-header">
                 <div class="card-title">
@@ -2767,70 +2831,6 @@
               <div class="chart-wrap-lg"><canvas id="chartJarak"></canvas></div>
             </div>
           </div>
-
-          <div class="tab-panel" id="panel-dinamik">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title">
-                  <svg class="ico" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" />
-                  </svg>Graf Dinamik — Pilih X & Y Sendiri
-                </div>
-                <div class="card-controls">
-                  <div class="chart-type-picker" data-chart="chartDynamic"></div>
-                  <button class="num-toggle" data-chart="chartDynamic" type="button">
-                    <span class="num-icon">🔢</span><span class="num-label">Nombor OFF</span>
-                  </button>
-                </div>
-              </div>
-
-              <div class="dyn-controls">
-                <div class="dyn-ctrl">
-                  <label>
-                    <svg class="ico" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    X-Axis (Dimensi)
-                  </label>
-                  <select id="dynX" class="dyn-select"></select>
-                </div>
-                <div class="dyn-ctrl">
-                  <label>
-                    <svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/></svg>
-                    Y-Axis (Metrik)
-                  </label>
-                  <select id="dynY" class="dyn-select"></select>
-                </div>
-                <div class="dyn-ctrl">
-                  <label>Susun</label>
-                  <select id="dynSort" class="dyn-select">
-                    <option value="value_desc">Nilai Tertinggi</option>
-                    <option value="value_asc">Nilai Terendah</option>
-                    <option value="label_asc">Label (A→Z)</option>
-                  </select>
-                </div>
-                <div class="dyn-ctrl">
-                  <label>Top N</label>
-                  <select id="dynTopN" class="dyn-select">
-                    <option value="0">Semua</option>
-                    <option value="5">Top 5</option>
-                    <option value="10">Top 10</option>
-                    <option value="15">Top 15</option>
-                    <option value="20">Top 20</option>
-                    <option value="30">Top 30</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="chart-wrap-lg">
-                <canvas id="chartDynamic"></canvas>
-              </div>
-
-              <div class="dyn-info" id="dynInfo">
-                <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                <span>Memuatkan...</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="page-content" id="page-data">
@@ -2948,6 +2948,7 @@
         treemap: { label: 'Peta Pokok (Treemap)', icon: '🟩' },
       };
       const CHART_REGISTRY = {
+        chartDynamic: { default: 'bar' },
         chartTrend: { default: 'line' },
         chartKpi: { default: 'bar' },
         chartNart: { default: 'bar' },
@@ -2963,7 +2964,6 @@
         chartOperasi: { default: 'doughnut' },
         chartHotspot: { default: 'doughnut' },
         chartJarak: { default: 'scatter' },
-        chartDynamic: { default: 'bar' },
       };
 
       const ChartPrefs = {
@@ -3028,7 +3028,7 @@
       let currentPage = 1;
       const rowsPerPage = 15;
       let sortCol = null, sortDir = 'asc';
-      let activeTab = 'trend';
+      let activeTab = 'dinamik';
       let currentPageView = 'graf';
 
       function parseCSV(text) {
@@ -3145,7 +3145,6 @@
         if (/^TIDAK$/i.test(c) || /^NO$/i.test(c) || /^TIADA$/i.test(c)) return 'TIDAK';
         return '';
       }
-      /* ✅ FIX: normalizeKpiStatus — semak TIDAK dulu, TERCAPAI tanpa anchor */
       function normalizeKpiStatus(v) {
         const c = clean(v).toUpperCase().trim();
         if (!c) return '';
@@ -4129,9 +4128,6 @@
         if (el) el.textContent = v;
       }
 
-      /* ══════════════════════════════════════════════════════════
-         WARNA AKSEN IKUT ZON
-         ══════════════════════════════════════════════════════════ */
       const ZON_COLOR_CACHE = {};
       const ZON_PALETTE = [
         '#002B5C', '#C8102E', '#0F7B4F', '#B8935A', '#7B5EA7',
@@ -4529,20 +4525,68 @@
           },
         };
       }
+
+      /* ══════════════════════════════════════════════════════════
+         FIXED getTrendData() — kesan bulan dari tarikh, kemudian teks
+         ══════════════════════════════════════════════════════════ */
       function getTrendData() {
-        const bulanOrder = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
-        const bulanShort = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogos','Sep','Okt','Nov','Dis'];
-        const map = {};
+        const bulanOrder = [
+          'Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun',
+          'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember',
+        ];
+        const bulanShort = [
+          'Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun',
+          'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis',
+        ];
+        const engMonths = [
+          'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+          'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
+        ];
+
+        function getMonthIndex(d) {
+          if (d.tarikh && !isNaN(d.tarikh.getTime())) return d.tarikh.getMonth();
+          const raw = String(d.bulan || '').trim();
+          if (!raw) return -1;
+          const upper = raw.toUpperCase();
+          const numMatch = upper.match(/\b(\d{1,2})\b/);
+          if (numMatch) {
+            const n = parseInt(numMatch[1], 10);
+            if (n >= 1 && n <= 12) return n - 1;
+          }
+          let idx = bulanOrder.findIndex((b) => b.toUpperCase() === upper);
+          if (idx >= 0) return idx;
+          idx = engMonths.findIndex((b) => b === upper);
+          if (idx >= 0) return idx;
+          const firstThree = upper.substring(0, 3);
+          const shortMs = ['JAN', 'FEB', 'MAC', 'APR', 'MEI', 'JUN', 'JUL', 'OGO', 'SEP', 'OKT', 'NOV', 'DIS'];
+          idx = shortMs.findIndex((s) => s === firstThree);
+          if (idx >= 0) return idx;
+          const shortEng = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+          idx = shortEng.findIndex((s) => s === firstThree);
+          if (idx >= 0) return idx;
+          return -1;
+        }
+
+        const counts = new Array(12).fill(0);
+        let hasAny = false;
         FILTERED.forEach((d) => {
-          if (d.bulan) map[d.bulan] = (map[d.bulan] || 0) + 1;
+          const m = getMonthIndex(d);
+          if (m >= 0 && m <= 11) { counts[m]++; hasAny = true; }
         });
-        const labels = bulanOrder.filter((b) => map[b] != null);
-        return {
-          labels: labels.map((b) => bulanShort[bulanOrder.indexOf(b)]),
-          values: labels.map((b) => map[b]),
-          rawLabels: labels,
-        };
+
+        if (!hasAny) return { labels: [], values: [], rawLabels: [] };
+
+        const labels = [], values = [], rawLabels = [];
+        counts.forEach((c, i) => {
+          if (c > 0) {
+            labels.push(bulanShort[i]);
+            values.push(c);
+            rawLabels.push(bulanOrder[i]);
+          }
+        });
+        return { labels, values, rawLabels };
       }
+
       function getKpiData() {
         const ackY = FILTERED.filter((d) => d.statusKpiAck === 'TERCAPAI').length;
         const ackN = FILTERED.filter((d) => d.statusKpiAck === 'TIDAK TERCAPAI').length;
@@ -4589,9 +4633,6 @@
         return FILTERED.filter((d) => d.jarak > 0 && d.rt != null).map((d) => ({ x: d.jarak, y: +d.rt.toFixed(1) }));
       }
 
-      /* ══════════════════════════════════════════════════════════
-         DYNAMIC CHART — X / Y BUILDER
-         ══════════════════════════════════════════════════════════ */
       const DIMENSIONS = {
         tarikh:        { label: 'Tarikh',                get: (d) => d.tarikhStr },
         bulan:         { label: 'Bulan',                 get: (d) => d.bulan || '(TIADA)' },
@@ -4992,6 +5033,7 @@
 
       function renderChartByType(chartId, type, showNumbers, canvas) {
         switch (chartId) {
+          case 'chartDynamic': return renderDynamic(chartId, type, showNumbers, canvas);
           case 'chartTrend': return renderTrend(chartId, type, showNumbers, canvas);
           case 'chartKpi': return renderKpi(chartId, type, showNumbers, canvas);
           case 'chartNart': return renderNart(chartId, type, showNumbers, canvas);
@@ -5007,7 +5049,6 @@
           case 'chartOperasi': return renderSimple(chartId, type, showNumbers, canvas, getSimpleCountData('masaOperasi'));
           case 'chartHotspot': return renderHotspot(chartId, type, showNumbers, canvas);
           case 'chartJarak': return renderJarak(chartId, type, showNumbers, canvas);
-          case 'chartDynamic': return renderDynamic(chartId, type, showNumbers, canvas);
         }
       }
 
@@ -5064,6 +5105,19 @@
 
       function renderTrend(chartId, type, showNumbers, canvas) {
         const { labels, values } = getTrendData();
+
+        /* ⬅️ GUARD: papar mesej kalau tiada data bulan */
+        if (!labels.length) {
+          canvas.style.display = 'none';
+          const wrap = canvas.parentElement;
+          wrap.querySelectorAll('.chart-error').forEach((el) => el.remove());
+          const errDiv = document.createElement('div');
+          errDiv.className = 'chart-error';
+          errDiv.innerHTML = `<strong>Tiada data bulan untuk dipaparkan</strong><small>Pastikan ada rekod dengan tarikh atau nilai Bulan yang sah dalam tapisan semasa.</small>`;
+          wrap.appendChild(errDiv);
+          return;
+        }
+
         if (type === 'pie' || type === 'doughnut' || type === 'polar') {
           const ct = { pie: 'pie', doughnut: 'doughnut', polar: 'polarArea' }[type];
           return newChart(chartId, canvas, { type: ct, data: { labels, datasets: [{ data: values, backgroundColor: PALETTE.map((c) => hexToRgba(c, 0.82)), borderColor: '#fff', borderWidth: 2 }] }, options: makeOpts({ plugins: { legend: { position: 'right' } }, scales: undefined }) }, showNumbers);
