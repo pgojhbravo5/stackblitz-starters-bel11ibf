@@ -986,18 +986,6 @@
         color: var(--johor-gold);
       }
 
-      /* Kad kategori/sub kategori dinamik */
-      #kategoriStatGrid .stat-label span,
-      #subKategori1StatGrid .stat-label span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-      }
-      #kategoriStatGrid .stat-card,
-      #subKategori1StatGrid .stat-card {
-        min-height: 96px;
-      }
       .section-title {
         margin: 24px 0 12px;
         font-size: 13px;
@@ -1010,53 +998,75 @@
         gap: 8px;
       }
 
-      .mode-switch-wrap {
+      /* ═══ PAGE NAVIGATION ═══ */
+      .page-nav {
         display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 16px;
+        gap: 4px;
         background: var(--surface);
-        padding: 8px 14px;
-        border-radius: var(--radius);
         border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 6px;
+        margin-bottom: 16px;
         box-shadow: var(--shadow-sm);
-        width: fit-content;
+        overflow-x: auto;
       }
-      .mode-label {
-        font-size: 10.5px;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        font-weight: 600;
-        letter-spacing: 0.5px;
+      .page-nav::-webkit-scrollbar {
+        height: 4px;
       }
-      .mode-toggle {
-        display: flex;
-        background: var(--surface-2);
-        border-radius: var(--radius-sm);
-        padding: 3px;
-        gap: 2px;
+      .page-nav::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 2px;
       }
-      .mode-btn {
-        border: none;
+      .page-nav-btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 12px 18px;
+        border: 1px solid transparent;
         background: transparent;
         color: var(--text-muted);
-        padding: 6px 14px;
-        border-radius: var(--radius-sm);
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
+        border-radius: var(--radius-sm);
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 6px;
+        justify-content: center;
+        gap: 8px;
         font-family: inherit;
+        transition: 0.15s;
+        white-space: nowrap;
       }
-      .mode-btn:hover {
+      .page-nav-btn .ico {
+        width: 16px;
+        height: 16px;
+      }
+      .page-nav-btn:hover {
+        background: var(--surface-2);
         color: var(--text);
       }
-      .mode-btn.active {
+      .page-nav-btn.active {
         background: var(--johor-navy);
         color: #fff;
       }
+
+      .page-content {
+        display: none;
+        animation: fadeIn 0.25s ease;
+      }
+      .page-content.active {
+        display: block;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       .tabs {
         display: flex;
         gap: 2px;
@@ -1106,16 +1116,6 @@
       }
       .tab-panel.active {
         display: block;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
       }
       .card {
         background: var(--surface);
@@ -1592,6 +1592,353 @@
         letter-spacing: 0.3px;
       }
 
+      /* ════ LAYOUT PADAT — Kategori & Sub Kategori ════ */
+      .dashboard-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      @media (max-width: 900px) {
+        .dashboard-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .compact-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 380px;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+      .compact-list::-webkit-scrollbar {
+        width: 6px;
+      }
+      .compact-list::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 3px;
+      }
+      .compact-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 12px;
+        background: var(--surface-2);
+        border-radius: var(--radius-sm);
+        border-left: 3px solid var(--border-strong);
+        transition: 0.15s;
+        gap: 10px;
+      }
+      .compact-item:hover {
+        background: var(--johor-navy-light);
+        border-left-color: var(--johor-navy);
+      }
+      .compact-item .c-info {
+        min-width: 0;
+        flex: 1;
+      }
+      .c-label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .c-sub {
+        font-size: 10.5px;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+      .c-val {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--johor-navy);
+        font-variant-numeric: tabular-nums;
+        flex-shrink: 0;
+      }
+
+      .scroll-container {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding: 4px 4px 12px;
+        scrollbar-width: thin;
+      }
+      .scroll-container::-webkit-scrollbar {
+        height: 6px;
+      }
+      .scroll-container::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 4px;
+      }
+      .scroll-container::-webkit-scrollbar-track {
+        background: var(--surface-2);
+        border-radius: 4px;
+      }
+      .mini-card {
+        flex: 0 0 165px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--border-strong);
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        transition: 0.15s;
+      }
+      .mini-card:hover {
+        background: var(--johor-navy-light);
+        border-left-color: var(--johor-navy);
+        transform: translateY(-1px);
+      }
+      .mini-label {
+        font-size: 10.5px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 4px;
+      }
+      .mini-val {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+        line-height: 1.1;
+      }
+      .mini-sub {
+        font-size: 10px;
+        color: var(--text-subtle);
+        margin-top: 2px;
+      }
+
+      .tone-danger {
+        border-left-color: var(--johor-red) !important;
+      }
+      .tone-success {
+        border-left-color: var(--success) !important;
+      }
+      .tone-warning {
+        border-left-color: var(--warning) !important;
+      }
+      .tone-gold {
+        border-left-color: var(--johor-gold) !important;
+      }
+
+      .list-toggle-btn {
+        width: 100%;
+        margin-top: 10px;
+        padding: 8px;
+        border: 1px dashed var(--border-strong);
+        background: transparent;
+        color: var(--johor-navy);
+        font-size: 11.5px;
+        font-weight: 600;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-family: inherit;
+        transition: 0.15s;
+      }
+      .list-toggle-btn:hover {
+        background: var(--johor-navy-light);
+        border-color: var(--johor-navy);
+        border-style: solid;
+      }
+
+      /* ════ COLUMN FILTER (Excel-like) ════ */
+      #dataTable thead th {
+        padding-right: 30px;
+        position: relative;
+      }
+      .cf-btn {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        border-radius: 3px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-subtle);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: 0.15s;
+      }
+      .cf-btn:hover {
+        background: var(--surface);
+        color: var(--johor-navy);
+        border-color: var(--border-strong);
+      }
+      .cf-btn.active {
+        background: var(--johor-navy);
+        color: #fff;
+        border-color: var(--johor-navy);
+      }
+      .cf-btn svg {
+        width: 11px;
+        height: 11px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .cf-dropdown {
+        position: absolute;
+        z-index: 500;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        width: 250px;
+        max-width: calc(100vw - 20px);
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-weight: 400;
+        text-transform: none;
+        letter-spacing: 0;
+        color: var(--text);
+        font-size: 12px;
+        cursor: default;
+      }
+      .cf-dropdown[hidden] {
+        display: none !important;
+      }
+      .cf-search-wrap {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 8px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--surface-2);
+      }
+      .cf-search-wrap input {
+        border: none;
+        outline: none;
+        background: transparent;
+        flex: 1;
+        font-size: 12.5px;
+        color: var(--text);
+        font-family: inherit;
+      }
+      .cf-actions {
+        display: flex;
+        gap: 4px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+      .cf-actions button {
+        flex: 1;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--johor-navy);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 5px 8px;
+        border-radius: var(--radius-sm);
+        font-family: inherit;
+      }
+      .cf-actions button:hover {
+        background: var(--johor-navy-light);
+        border-color: var(--johor-navy);
+      }
+      .cf-options {
+        overflow-y: auto;
+        max-height: 200px;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
+      .cf-options::-webkit-scrollbar {
+        width: 4px;
+      }
+      .cf-options::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 2px;
+      }
+      .cf-opt {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 8px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: 12px;
+        color: var(--text);
+        user-select: none;
+      }
+      .cf-opt:hover {
+        background: var(--surface-2);
+      }
+      .cf-opt input {
+        width: 13px;
+        height: 13px;
+        accent-color: var(--johor-navy);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .cf-opt span {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cf-opt .cf-cnt {
+        font-size: 10.5px;
+        color: var(--text-muted);
+        font-variant-numeric: tabular-nums;
+        flex-shrink: 0;
+      }
+      .cf-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 6px;
+        border-top: 1px solid var(--border);
+        font-size: 10.5px;
+        color: var(--text-muted);
+        gap: 6px;
+      }
+      .cf-footer > div {
+        display: flex;
+        gap: 4px;
+      }
+      .cf-footer button {
+        background: var(--johor-navy);
+        color: #fff;
+        border: none;
+        padding: 4px 10px;
+        border-radius: var(--radius-sm);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .cf-footer button.cf-reset {
+        background: transparent;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+      }
+      .cf-footer button:hover {
+        opacity: 0.9;
+      }
+      .cf-footer button.cf-reset:hover {
+        background: var(--johor-red-light);
+        color: var(--johor-red);
+        border-color: var(--johor-red);
+      }
+
       @media (max-width: 1200px) {
         .filter-bar-inner {
           grid-template-columns: repeat(3, 1fr);
@@ -1642,7 +1989,7 @@
         }
         .topbar-right,
         .tabs,
-        .mode-switch-wrap,
+        .page-nav,
         .pagination,
         .icon-btn,
         .btn-secondary,
@@ -2109,692 +2456,783 @@
           </div>
         </section>
 
-        <!-- ═══ GRID KPI UTAMA ═══ -->
-        <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-label">Total Kes</div>
-            <div class="stat-value" id="kpiTotal">-</div>
-            <div class="stat-sub" id="kpiTotalSub">-</div>
-          </div>
-          <div class="stat-card stat-danger">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path
-                  d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
-                />
-              </svg>
-              Kebakaran
-            </div>
-            <div class="stat-value" id="kpiKebakaran">-</div>
-            <div class="stat-sub" id="kpiKebakaranSub">-</div>
-          </div>
-          <div class="stat-card stat-success">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" />
-                <circle cx="12" cy="12" r="4" />
-                <line x1="4.93" y1="4.93" x2="9.17" y2="9.17" />
-                <line x1="14.83" y1="14.83" x2="19.07" y2="19.07" />
-                <line x1="14.83" y1="9.17" x2="19.07" y2="4.93" />
-                <line x1="4.93" y1="19.07" x2="9.17" y2="14.83" />
-              </svg>
-              Penyelamatan
-            </div>
-            <div class="stat-value" id="kpiPenyelamatan">-</div>
-            <div class="stat-sub" id="kpiPenyelamatanSub">-</div>
-          </div>
-          <div class="stat-card stat-warning">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <circle cx="12" cy="13" r="8" />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="13" x2="16" y2="15" />
-                <line x1="9" y1="2" x2="15" y2="2" />
-              </svg>
-              Purata RT
-            </div>
-            <div class="stat-value" id="kpiRT">-</div>
-            <div class="stat-sub">minit</div>
-          </div>
-          <div class="stat-card stat-success">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              KPI Acknowledge
-            </div>
-            <div class="stat-value" id="kpiAck">-</div>
-            <div class="stat-sub" id="kpiAckSub">≤ 10 saat</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path
-                  d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
-              KPI Enroute
-            </div>
-            <div class="stat-value" id="kpiEnroute">-</div>
-            <div class="stat-sub" id="kpiEnrouteSub">≤ 60 saat</div>
-          </div>
-          <div class="stat-card stat-gold">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" />
-                <circle cx="12" cy="12" r="6" />
-                <circle cx="12" cy="12" r="2" />
-              </svg>
-              KPI RT 10min
-            </div>
-            <div class="stat-value" id="kpiRt10">-</div>
-            <div class="stat-sub" id="kpiRt10Sub">≤ 10 minit</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              Jumlah Mangsa
-            </div>
-            <div class="stat-value" id="kpiMangsa">-</div>
-            <div class="stat-sub" id="kpiMangsaSub">selamat + mati</div>
-          </div>
-          <div class="stat-card stat-gold">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path d="M12 2C12 2 6 8 6 14a6 6 0 0 0 12 0c0-6-6-12-6-12z" />
-                <circle cx="12" cy="14" r="2" />
-              </svg>
-              Kebakaran Tanah Gambut
-            </div>
-            <div class="stat-value" id="kpiGambut">-</div>
-            <div class="stat-sub" id="kpiGambutSub">-</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              Jumlah Jam Operasi
-            </div>
-            <div class="stat-value" id="kpiJamOps">-</div>
-            <div class="stat-sub">jumlah jam</div>
-          </div>
-          <div class="stat-card stat-success">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <polyline points="16 11 18 13 22 9" />
-              </svg>
-              Mangsa Selamat
-            </div>
-            <div class="stat-value" id="kpiMangsaSelamat">-</div>
-            <div class="stat-sub" id="kpiMangsaSelamatSub">-</div>
-          </div>
-          <div class="stat-card stat-danger">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <line x1="17" y1="8" x2="22" y2="13" />
-                <line x1="22" y1="8" x2="17" y2="13" />
-              </svg>
-              Mangsa Meninggal
-            </div>
-            <div class="stat-value" id="kpiMangsaMeninggal">-</div>
-            <div class="stat-sub" id="kpiMangsaMeninggalSub">-</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path
-                  d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4z"
-                />
-              </svg>
-              Purata Jarak
-            </div>
-            <div class="stat-value" id="kpiJarak">-</div>
-            <div class="stat-sub" id="kpiJarakSub">km</div>
-          </div>
-          <div class="stat-card stat-warning">
-            <div class="stat-label">
-              <svg class="ico" viewBox="0 0 24 24">
-                <path
-                  d="M6 2h12M6 22h12M6 2v6a6 6 0 0 0 12 0V2M6 22v-6a6 6 0 0 1 12 0v6"
-                />
-              </svg>
-              Operasi Panjang &gt;24j
-            </div>
-            <div class="stat-value" id="kpiOpsPanjang">-</div>
-            <div class="stat-sub" id="kpiOpsPanjangSub">-</div>
-          </div>
-        </div>
-
-        <!-- ═══ KAD DINAMIK MENGIKUT KATEGORI ═══ -->
-        <div class="section-title">
-          <svg class="ico" viewBox="0 0 24 24">
-            <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-            <path d="M22 12A10 10 0 0 0 12 2v10z" />
-          </svg>
-          Pecahan Mengikut Kategori
-        </div>
-        <div class="stat-grid" id="kategoriStatGrid"></div>
-
-        <!-- ═══ KAD DINAMIK MENGIKUT SUB KATEGORI 1 ═══ -->
-        <div class="section-title">
-          <svg class="ico" viewBox="0 0 24 24">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-          </svg>
-          Pecahan Mengikut Sub Kategori 1
-        </div>
-        <div class="stat-grid" id="subKategori1StatGrid"></div>
-
-        <div class="mode-switch-wrap">
-          <span class="mode-label">Papar</span>
-          <div class="mode-toggle" id="modeToggle">
-            <button class="mode-btn active" data-mode="graf" type="button">
-              <svg class="ico" viewBox="0 0 24 24">
-                <line x1="12" y1="20" x2="12" y2="10" />
-                <line x1="18" y1="20" x2="18" y2="4" />
-                <line x1="6" y1="20" x2="6" y2="16" />
-              </svg>
-              Graf
-            </button>
-            <button class="mode-btn" data-mode="data" type="button">
-              <svg class="ico" viewBox="0 0 24 24">
-                <line x1="8" y1="6" x2="21" y2="6" />
-                <line x1="8" y1="12" x2="21" y2="12" />
-                <line x1="8" y1="18" x2="21" y2="18" />
-                <line x1="3" y1="6" x2="3.01" y2="6" />
-                <line x1="3" y1="12" x2="3.01" y2="12" />
-                <line x1="3" y1="18" x2="3.01" y2="18" />
-              </svg>
-              Data
-            </button>
-            <button class="mode-btn" data-mode="jadual" type="button">
-              <svg class="ico" viewBox="0 0 24 24">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <line x1="3" y1="9" x2="21" y2="9" />
-                <line x1="3" y1="15" x2="21" y2="15" />
-                <line x1="9" y1="3" x2="9" y2="21" />
-                <line x1="15" y1="3" x2="15" y2="21" />
-              </svg>
-              Jadual
-            </button>
-          </div>
-        </div>
-
-        <div class="tabs" id="tabs">
-          <button class="tab-btn active" data-tab="trend">
+        <!-- ═══ PAGE NAVIGATION ═══ -->
+        <div class="page-nav" id="pageNav">
+          <button class="page-nav-btn active" data-page="graf" type="button">
             <svg class="ico" viewBox="0 0 24 24">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-              <polyline points="17 6 23 6 23 12" /></svg
-            >Trend
+              <line x1="12" y1="20" x2="12" y2="10" />
+              <line x1="18" y1="20" x2="18" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="16" />
+            </svg>
+            Graf
           </button>
-          <button class="tab-btn" data-tab="kpi">
+          <button class="page-nav-btn" data-page="data" type="button">
             <svg class="ico" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" /></svg
-            >KPI Status
+              <line x1="8" y1="6" x2="21" y2="6" />
+              <line x1="8" y1="12" x2="21" y2="12" />
+              <line x1="8" y1="18" x2="21" y2="18" />
+              <line x1="3" y1="6" x2="3.01" y2="6" />
+              <line x1="3" y1="12" x2="3.01" y2="12" />
+              <line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+            Data
           </button>
-          <button class="tab-btn" data-tab="rt-range">
+          <button class="page-nav-btn" data-page="jadual" type="button">
             <svg class="ico" viewBox="0 0 24 24">
-              <circle cx="12" cy="13" r="8" />
-              <line x1="12" y1="9" x2="12" y2="13" />
-              <line x1="12" y1="13" x2="16" y2="15" />
-              <line x1="9" y1="2" x2="15" y2="2" /></svg
-            >Range RT
-          </button>
-          <button class="tab-btn" data-tab="kategori">
-            <svg class="ico" viewBox="0 0 24 24">
-              <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-              <path d="M22 12A10 10 0 0 0 12 2v10z" /></svg
-            >Kategori
-          </button>
-          <button class="tab-btn" data-tab="jenis">
-            <svg class="ico" viewBox="0 0 24 24">
-              <path
-                d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
-              />
-              <line x1="7" y1="7" x2="7.01" y2="7" /></svg
-            >Jenis
-          </button>
-          <button class="tab-btn" data-tab="balai">
-            <svg class="ico" viewBox="0 0 24 24">
-              <rect x="1" y="3" width="15" height="13" />
-              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-              <circle cx="5.5" cy="18.5" r="2.5" />
-              <circle cx="18.5" cy="18.5" r="2.5" /></svg
-            >Balai
-          </button>
-          <button class="tab-btn" data-tab="zon">
-            <svg class="ico" viewBox="0 0 24 24">
-              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
-              <line x1="8" y1="2" x2="8" y2="18" />
-              <line x1="16" y1="6" x2="16" y2="22" /></svg
-            >Zon &amp; Daerah
-          </button>
-          <button class="tab-btn" data-tab="shif">
-            <svg class="ico" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" /></svg
-            >Shif
-          </button>
-          <button class="tab-btn" data-tab="monsun">
-            <svg class="ico" viewBox="0 0 24 24">
-              <line x1="16" y1="13" x2="16" y2="21" />
-              <line x1="8" y1="13" x2="8" y2="21" />
-              <line x1="12" y1="15" x2="12" y2="23" />
-              <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" /></svg
-            >Monsun
-          </button>
-          <button class="tab-btn" data-tab="operasi">
-            <svg class="ico" viewBox="0 0 24 24">
-              <path
-                d="M6 2h12M6 22h12M6 2v6a6 6 0 0 0 12 0V2M6 22v-6a6 6 0 0 1 12 0v6"
-              /></svg
-            >Masa Operasi
-          </button>
-          <button class="tab-btn" data-tab="hotspot">
-            <svg class="ico" viewBox="0 0 24 24">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" /></svg
-            >Hotspot
-          </button>
-          <button class="tab-btn" data-tab="jarak">
-            <svg class="ico" viewBox="0 0 24 24">
-              <path
-                d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4z"
-              /></svg
-            >Jarak vs RT
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="3" y1="15" x2="21" y2="15" />
+              <line x1="9" y1="3" x2="9" y2="21" />
+              <line x1="15" y1="3" x2="15" y2="21" />
+            </svg>
+            Jadual
           </button>
         </div>
 
-        <div class="tab-panel active" id="panel-trend">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                  <polyline points="17 6 23 6 23 12" /></svg
-                >Trend Kes Mengikut Bulan
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartTrend"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartTrend"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-                <span class="card-badge" id="badgeTrend">-</span>
-              </div>
+        <!-- ═══════════ PAGE: GRAF ═══════════ -->
+        <div class="page-content active" id="page-graf">
+          <!-- GRID KPI UTAMA -->
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">Total Kes</div>
+              <div class="stat-value" id="kpiTotal">-</div>
+              <div class="stat-sub" id="kpiTotalSub">-</div>
             </div>
-            <div class="chart-wrap-lg"><canvas id="chartTrend"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-kpi">
-          <div class="stat-row" id="statKpi"></div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" /></svg
-                >Pencapaian KPI Utama
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartKpi"></div>
-                <button class="num-toggle" data-chart="chartKpi" type="button">
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-lg"><canvas id="chartKpi"></canvas></div>
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <line x1="12" y1="20" x2="12" y2="10" />
-                  <line x1="18" y1="20" x2="18" y2="4" />
-                  <line x1="6" y1="20" x2="6" y2="16" /></svg
-                >Status NART Mengikut KPI
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartNart"></div>
-                <button class="num-toggle" data-chart="chartNart" type="button">
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-lg"><canvas id="chartNart"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-rt-range">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <circle cx="12" cy="13" r="8" />
-                  <line x1="12" y1="9" x2="12" y2="13" />
-                  <line x1="12" y1="13" x2="16" y2="15" />
-                  <line x1="9" y1="2" x2="15" y2="2" /></svg
-                >Pecahan Range Masa T/P (RT)
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartRtRange"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartRtRange"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-lg"><canvas id="chartRtRange"></canvas></div>
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <circle cx="12" cy="13" r="8" />
-                  <line x1="12" y1="9" x2="12" y2="13" />
-                  <line x1="12" y1="13" x2="16" y2="15" />
-                  <line x1="9" y1="2" x2="15" y2="2" /></svg
-                >Range Masa T/P (2)
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartRtRange2"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartRtRange2"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-lg">
-              <canvas id="chartRtRange2"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-kategori">
-          <div class="stat-row" id="statKategori"></div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                  <path d="M22 12A10 10 0 0 0 12 2v10z" /></svg
-                >Pecahan Kategori Panggilan Operasi
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartKategori"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartKategori"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-lg">
-              <canvas id="chartKategori"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-jenis">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
+            <div class="stat-card stat-danger">
+              <div class="stat-label">
                 <svg class="ico" viewBox="0 0 24 24">
                   <path
-                    d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+                    d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
                   />
-                  <line x1="7" y1="7" x2="7.01" y2="7" /></svg
-                >Top 15 Jenis Panggilan Operasi
+                </svg>
+                Kebakaran
               </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartJenis"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartJenis"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
+              <div class="stat-value" id="kpiKebakaran">-</div>
+              <div class="stat-sub" id="kpiKebakaranSub">-</div>
             </div>
-            <div class="chart-wrap-lg"><canvas id="chartJenis"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-balai">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
+            <div class="stat-card stat-success">
+              <div class="stat-label">
                 <svg class="ico" viewBox="0 0 24 24">
-                  <rect x="1" y="3" width="15" height="13" />
-                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                  <circle cx="5.5" cy="18.5" r="2.5" />
-                  <circle cx="18.5" cy="18.5" r="2.5" /></svg
-                >Bilangan Kes Mengikut Balai
+                  <circle cx="12" cy="12" r="10" />
+                  <circle cx="12" cy="12" r="4" />
+                  <line x1="4.93" y1="4.93" x2="9.17" y2="9.17" />
+                  <line x1="14.83" y1="14.83" x2="19.07" y2="19.07" />
+                  <line x1="14.83" y1="9.17" x2="19.07" y2="4.93" />
+                  <line x1="4.93" y1="19.07" x2="9.17" y2="14.83" />
+                </svg>
+                Penyelamatan
               </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartBalai"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartBalai"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-                <span class="card-badge" id="badgeBalai">-</span>
+              <div class="stat-value" id="kpiPenyelamatan">-</div>
+              <div class="stat-sub" id="kpiPenyelamatanSub">-</div>
+            </div>
+            <div class="stat-card stat-warning">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <circle cx="12" cy="13" r="8" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="13" x2="16" y2="15" />
+                  <line x1="9" y1="2" x2="15" y2="2" />
+                </svg>
+                Purata RT
+              </div>
+              <div class="stat-value" id="kpiRT">-</div>
+              <div class="stat-sub">minit</div>
+            </div>
+            <div class="stat-card stat-success">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                KPI Acknowledge
+              </div>
+              <div class="stat-value" id="kpiAck">-</div>
+              <div class="stat-sub" id="kpiAckSub">≤ 10 saat</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                KPI Enroute
+              </div>
+              <div class="stat-value" id="kpiEnroute">-</div>
+              <div class="stat-sub" id="kpiEnrouteSub">≤ 60 saat</div>
+            </div>
+            <div class="stat-card stat-gold">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" />
+                  <circle cx="12" cy="12" r="6" />
+                  <circle cx="12" cy="12" r="2" />
+                </svg>
+                KPI RT 10min
+              </div>
+              <div class="stat-value" id="kpiRt10">-</div>
+              <div class="stat-sub" id="kpiRt10Sub">≤ 10 minit</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                Jumlah Mangsa
+              </div>
+              <div class="stat-value" id="kpiMangsa">-</div>
+              <div class="stat-sub" id="kpiMangsaSub">selamat + mati</div>
+            </div>
+            <div class="stat-card stat-gold">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path d="M12 2C12 2 6 8 6 14a6 6 0 0 0 12 0c0-6-6-12-6-12z" />
+                  <circle cx="12" cy="14" r="2" />
+                </svg>
+                Kebakaran Tanah Gambut
+              </div>
+              <div class="stat-value" id="kpiGambut">-</div>
+              <div class="stat-sub" id="kpiGambutSub">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                Jumlah Jam Operasi
+              </div>
+              <div class="stat-value" id="kpiJamOps">-</div>
+              <div class="stat-sub">jumlah jam</div>
+            </div>
+            <div class="stat-card stat-success">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <polyline points="16 11 18 13 22 9" />
+                </svg>
+                Mangsa Selamat
+              </div>
+              <div class="stat-value" id="kpiMangsaSelamat">-</div>
+              <div class="stat-sub" id="kpiMangsaSelamatSub">-</div>
+            </div>
+            <div class="stat-card stat-danger">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <line x1="17" y1="8" x2="22" y2="13" />
+                  <line x1="22" y1="8" x2="17" y2="13" />
+                </svg>
+                Mangsa Meninggal
+              </div>
+              <div class="stat-value" id="kpiMangsaMeninggal">-</div>
+              <div class="stat-sub" id="kpiMangsaMeninggalSub">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path
+                    d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4z"
+                  />
+                </svg>
+                Purata Jarak
+              </div>
+              <div class="stat-value" id="kpiJarak">-</div>
+              <div class="stat-sub" id="kpiJarakSub">km</div>
+            </div>
+            <div class="stat-card stat-warning">
+              <div class="stat-label">
+                <svg class="ico" viewBox="0 0 24 24">
+                  <path
+                    d="M6 2h12M6 22h12M6 2v6a6 6 0 0 0 12 0V2M6 22v-6a6 6 0 0 1 12 0v6"
+                  />
+                </svg>
+                Operasi Panjang &gt;24j
+              </div>
+              <div class="stat-value" id="kpiOpsPanjang">-</div>
+              <div class="stat-sub" id="kpiOpsPanjangSub">-</div>
+            </div>
+          </div>
+
+          <!-- PECAHAN KATEGORI -->
+          <div class="section-title">
+            <svg class="ico" viewBox="0 0 24 24">
+              <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+              <path d="M22 12A10 10 0 0 0 12 2v10z" />
+            </svg>
+            Pecahan Mengikut Kategori
+          </div>
+          <div class="dashboard-row">
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                    <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                  </svg>
+                  Carta Kategori
+                </div>
+              </div>
+              <div class="chart-wrap-md">
+                <canvas id="chartKatCompact"></canvas>
               </div>
             </div>
-            <div class="chart-wrap-lg"><canvas id="chartBalai"></canvas></div>
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                  </svg>
+                  Senarai Kategori
+                </div>
+                <span class="card-badge" id="badgeKatCompact">-</span>
+              </div>
+              <div class="compact-list" id="kategoriCompactList"></div>
+              <button
+                class="list-toggle-btn"
+                id="kategoriToggleBtn"
+                type="button"
+                onclick="toggleKategoriList()"
+              >
+                Lihat Semua
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div class="tab-panel" id="panel-zon">
+          <!-- SUB KATEGORI 1 -->
+          <div class="section-title">
+            <svg class="ico" viewBox="0 0 24 24">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            Pecahan Mengikut Sub Kategori 1
+          </div>
           <div class="card">
             <div class="card-header">
               <div class="card-title">
                 <svg class="ico" viewBox="0 0 24 24">
                   <polygon
-                    points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"
+                    points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
                   />
-                  <line x1="8" y1="2" x2="8" y2="18" />
-                  <line x1="16" y1="6" x2="16" y2="22" /></svg
-                >Kes Mengikut Zon
+                </svg>
+                Semua Sub Kategori — Skrol ke Kanan →
               </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartZon"></div>
-                <button class="num-toggle" data-chart="chartZon" type="button">
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
+              <span class="card-badge" id="badgeSubKategori">-</span>
             </div>
-            <div class="chart-wrap-md"><canvas id="chartZon"></canvas></div>
+            <div class="scroll-container" id="subKategoriScroll"></div>
           </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" /></svg
-                >Top 15 Daerah
+
+          <div class="tabs" id="tabs">
+            <button class="tab-btn active" data-tab="trend">
+              <svg class="ico" viewBox="0 0 24 24">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                <polyline points="17 6 23 6 23 12" /></svg
+              >Trend
+            </button>
+            <button class="tab-btn" data-tab="kpi">
+              <svg class="ico" viewBox="0 0 24 24">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" /></svg
+              >KPI Status
+            </button>
+            <button class="tab-btn" data-tab="rt-range">
+              <svg class="ico" viewBox="0 0 24 24">
+                <circle cx="12" cy="13" r="8" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="13" x2="16" y2="15" />
+                <line x1="9" y1="2" x2="15" y2="2" /></svg
+              >Range RT
+            </button>
+            <button class="tab-btn" data-tab="kategori">
+              <svg class="ico" viewBox="0 0 24 24">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                <path d="M22 12A10 10 0 0 0 12 2v10z" /></svg
+              >Kategori
+            </button>
+            <button class="tab-btn" data-tab="jenis">
+              <svg class="ico" viewBox="0 0 24 24">
+                <path
+                  d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+                />
+                <line x1="7" y1="7" x2="7.01" y2="7" /></svg
+              >Jenis
+            </button>
+            <button class="tab-btn" data-tab="balai">
+              <svg class="ico" viewBox="0 0 24 24">
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" /></svg
+              >Balai
+            </button>
+            <button class="tab-btn" data-tab="zon">
+              <svg class="ico" viewBox="0 0 24 24">
+                <polygon
+                  points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"
+                />
+                <line x1="8" y1="2" x2="8" y2="18" />
+                <line x1="16" y1="6" x2="16" y2="22" /></svg
+              >Zon &amp; Daerah
+            </button>
+            <button class="tab-btn" data-tab="shif">
+              <svg class="ico" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" /></svg
+              >Shif
+            </button>
+            <button class="tab-btn" data-tab="monsun">
+              <svg class="ico" viewBox="0 0 24 24">
+                <line x1="16" y1="13" x2="16" y2="21" />
+                <line x1="8" y1="13" x2="8" y2="21" />
+                <line x1="12" y1="15" x2="12" y2="23" />
+                <path
+                  d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"
+                /></svg
+              >Monsun
+            </button>
+            <button class="tab-btn" data-tab="operasi">
+              <svg class="ico" viewBox="0 0 24 24">
+                <path
+                  d="M6 2h12M6 22h12M6 2v6a6 6 0 0 0 12 0V2M6 22v-6a6 6 0 0 1 12 0v6"
+                /></svg
+              >Masa Operasi
+            </button>
+            <button class="tab-btn" data-tab="hotspot">
+              <svg class="ico" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" /></svg
+              >Hotspot
+            </button>
+            <button class="tab-btn" data-tab="jarak">
+              <svg class="ico" viewBox="0 0 24 24">
+                <path
+                  d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4z"
+                /></svg
+              >Jarak vs RT
+            </button>
+          </div>
+
+          <div class="tab-panel active" id="panel-trend">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" /></svg
+                  >Trend Kes Mengikut Bulan
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartTrend"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartTrend"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                  <span class="card-badge" id="badgeTrend">-</span>
+                </div>
               </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartDaerah"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartDaerah"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
+              <div class="chart-wrap-lg"><canvas id="chartTrend"></canvas></div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-kpi">
+            <div class="stat-row" id="statKpi"></div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" /></svg
+                  >Pencapaian KPI Utama
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartKpi"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartKpi"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg"><canvas id="chartKpi"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <line x1="12" y1="20" x2="12" y2="10" />
+                    <line x1="18" y1="20" x2="18" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="16" /></svg
+                  >Status NART Mengikut KPI
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartNart"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartNart"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg"><canvas id="chartNart"></canvas></div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-rt-range">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <circle cx="12" cy="13" r="8" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="13" x2="16" y2="15" />
+                    <line x1="9" y1="2" x2="15" y2="2" /></svg
+                  >Pecahan Range Masa T/P (RT)
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartRtRange"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartRtRange"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg">
+                <canvas id="chartRtRange"></canvas>
               </div>
             </div>
-            <div class="chart-wrap-lg"><canvas id="chartDaerah"></canvas></div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <circle cx="12" cy="13" r="8" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="13" x2="16" y2="15" />
+                    <line x1="9" y1="2" x2="15" y2="2" /></svg
+                  >Range Masa T/P (2)
+                </div>
+                <div class="card-controls">
+                  <div
+                    class="chart-type-picker"
+                    data-chart="chartRtRange2"
+                  ></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartRtRange2"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg">
+                <canvas id="chartRtRange2"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-kategori">
+            <div class="stat-row" id="statKategori"></div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                    <path d="M22 12A10 10 0 0 0 12 2v10z" /></svg
+                  >Pecahan Kategori Panggilan Operasi
+                </div>
+                <div class="card-controls">
+                  <div
+                    class="chart-type-picker"
+                    data-chart="chartKategori"
+                  ></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartKategori"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg">
+                <canvas id="chartKategori"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-jenis">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path
+                      d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+                    />
+                    <line x1="7" y1="7" x2="7.01" y2="7" /></svg
+                  >Top 15 Jenis Panggilan Operasi
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartJenis"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartJenis"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg"><canvas id="chartJenis"></canvas></div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-balai">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <rect x="1" y="3" width="15" height="13" />
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" /></svg
+                  >Bilangan Kes Mengikut Balai
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartBalai"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartBalai"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                  <span class="card-badge" id="badgeBalai">-</span>
+                </div>
+              </div>
+              <div class="chart-wrap-lg"><canvas id="chartBalai"></canvas></div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-zon">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <polygon
+                      points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"
+                    />
+                    <line x1="8" y1="2" x2="8" y2="18" />
+                    <line x1="16" y1="6" x2="16" y2="22" /></svg
+                  >Kes Mengikut Zon
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartZon"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartZon"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-md"><canvas id="chartZon"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path
+                      d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                    />
+                    <circle cx="12" cy="10" r="3" /></svg
+                  >Top 15 Daerah
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartDaerah"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartDaerah"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg">
+                <canvas id="chartDaerah"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-shif">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg
+                  >Pecahan Mengikut Shif
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartShif"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartShif"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-md"><canvas id="chartShif"></canvas></div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-monsun">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <line x1="16" y1="13" x2="16" y2="21" />
+                    <line x1="8" y1="13" x2="8" y2="21" />
+                    <line x1="12" y1="15" x2="12" y2="23" />
+                    <path
+                      d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"
+                    /></svg
+                  >Kes Mengikut Fasa Monsun
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartMonsun"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartMonsun"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-md"><canvas id="chartMonsun"></canvas></div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-operasi">
+            <div class="stat-row" id="statOperasi"></div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path
+                      d="M6 2h12M6 22h12M6 2v6a6 6 0 0 0 12 0V2M6 22v-6a6 6 0 0 1 12 0v6"
+                    /></svg
+                  >Kategori Masa Operasi
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartOperasi"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartOperasi"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-md">
+                <canvas id="chartOperasi"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-hotspot">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" /></svg
+                  >Hotspot vs Bukan Hotspot
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartHotspot"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartHotspot"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-md">
+                <canvas id="chartHotspot"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-jarak">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg class="ico" viewBox="0 0 24 24">
+                    <path
+                      d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4z"
+                    /></svg
+                  >Hubungan Jarak (km) vs Response Time (minit)
+                </div>
+                <div class="card-controls">
+                  <div class="chart-type-picker" data-chart="chartJarak"></div>
+                  <button
+                    class="num-toggle"
+                    data-chart="chartJarak"
+                    type="button"
+                  >
+                    <span class="num-icon">🔢</span
+                    ><span class="num-label">Nombor OFF</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap-lg"><canvas id="chartJarak"></canvas></div>
+            </div>
           </div>
         </div>
 
-        <div class="tab-panel" id="panel-shif">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" /></svg
-                >Pecahan Mengikut Shif
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartShif"></div>
-                <button class="num-toggle" data-chart="chartShif" type="button">
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-md"><canvas id="chartShif"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-monsun">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <line x1="16" y1="13" x2="16" y2="21" />
-                  <line x1="8" y1="13" x2="8" y2="21" />
-                  <line x1="12" y1="15" x2="12" y2="23" />
-                  <path
-                    d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"
-                  /></svg
-                >Kes Mengikut Fasa Monsun
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartMonsun"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartMonsun"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-md"><canvas id="chartMonsun"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-operasi">
-          <div class="stat-row" id="statOperasi"></div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <path
-                    d="M6 2h12M6 22h12M6 2v6a6 6 0 0 0 12 0V2M6 22v-6a6 6 0 0 1 12 0v6"
-                  /></svg
-                >Kategori Masa Operasi
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartOperasi"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartOperasi"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-md"><canvas id="chartOperasi"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-hotspot">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" /></svg
-                >Hotspot vs Bukan Hotspot
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartHotspot"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartHotspot"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-md"><canvas id="chartHotspot"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-jarak">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">
-                <svg class="ico" viewBox="0 0 24 24">
-                  <path
-                    d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4z"
-                  /></svg
-                >Hubungan Jarak (km) vs Response Time (minit)
-              </div>
-              <div class="card-controls">
-                <div class="chart-type-picker" data-chart="chartJarak"></div>
-                <button
-                  class="num-toggle"
-                  data-chart="chartJarak"
-                  type="button"
-                >
-                  <span class="num-icon">🔢</span
-                  ><span class="num-label">Nombor OFF</span>
-                </button>
-              </div>
-            </div>
-            <div class="chart-wrap-lg"><canvas id="chartJarak"></canvas></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-table">
+        <!-- ═══════════ PAGE: DATA ═══════════ -->
+        <div class="page-content" id="page-data">
           <div class="card">
             <div class="card-header">
               <div class="card-title">
@@ -2807,7 +3245,9 @@
                   <line x1="3" y1="18" x2="3.01" y2="18" /></svg
                 >Senarai Kejadian
               </div>
-              <span class="card-badge">klik header untuk sort</span>
+              <span class="card-badge"
+                >klik teks header untuk sort • klik 🔽 untuk tapis</span
+              >
             </div>
             <div id="colWarning"></div>
             <div class="table-scroll">
@@ -2830,7 +3270,8 @@
           </div>
         </div>
 
-        <div class="tab-panel" id="panel-jadual">
+        <!-- ═══════════ PAGE: JADUAL ═══════════ -->
+        <div class="page-content" id="page-jadual">
           <div class="card">
             <div class="card-header">
               <div class="card-title">
@@ -2876,6 +3317,8 @@
         <div class="footer-copy">© 2026 PGO JOHOR | Hak Cipta Terpelihara</div>
       </div>
     </footer>
+
+    <div class="cf-dropdown" id="cfDropdown" hidden></div>
 
     <script>
       const CSV_URL =
@@ -3041,9 +3484,8 @@
       const rowsPerPage = 15;
       let sortCol = null,
         sortDir = 'asc';
-      let activeTab = 'trend',
-        viewMode = 'graf',
-        lastGrafTab = 'trend';
+      let activeTab = 'trend';
+      let currentPageView = 'graf';
 
       function parseCSV(text) {
         const rows = [];
@@ -3896,6 +4338,7 @@
             HARI: findCol(['DAY', 'HARI'], 4),
             TARIKH: findCol(['TARIKH', 'KEJADIAN'], 5),
             BALAI: findCol(['BALAI'], 6),
+            CALL_CARD: findCol(['CALL CARD'], 16),
             SHIF: findCol(['SHIF'], 17),
             KATEGORI: findCol(['KATEGORI PANGGILAN', 'KATEGORI'], 22),
             SUB_KATEGORI_1: findCol(['SUB KATEGORI 1', 'SUB KATEGORI'], 23),
@@ -3949,6 +4392,10 @@
             .filter((r) => r.length > 6 && clean(r[COL.BALAI]));
 
           console.info(
+            '📌 Kolum CALL CARD:',
+            COL.CALL_CARD >= 0 ? HEADERS[COL.CALL_CARD] : '(tidak dijumpai)'
+          );
+          console.info(
             '📌 Kolum Masa Tamat Operasi:',
             COL.MASA_TAMAT >= 0
               ? HEADERS[COL.MASA_TAMAT]
@@ -3961,21 +4408,23 @@
               COL.MASA_TAMAT >= 0 ? clean(r[COL.MASA_TAMAT]) : '';
             const jamOperasi = toNum(r[COL.JAM_OPERASI]);
             const tempohOperasi = normalizeTempohOperasi(r[COL.MASA_OPERASI]);
-            // MASIH BEROPERASI = tiada masa tamat operasi.
-            // Fallback jika kolum tak jumpa: tiada tempoh & tiada jam operasi.
             const masihBeroperasi =
-              COL.MASA_TAMAT >= 0 ? !masaTamat : !tempohOperasi && !jamOperasi;
+              COL.MASA_TAMAT >= 0
+                ? !masaTamat
+                : !tempohOperasi && !jamOperasi;
             const statusOperasi = masihBeroperasi
               ? 'MASIH BEROPERASI'
               : 'OPERASI TAMAT';
             return {
               raw: r,
               bil: clean(r[COL.BIL]),
+              tahun: clean(r[COL.TAHUN]),
               tarikh,
               tarikhStr: formatDate(tarikh),
               hari: clean(r[COL.HARI]) || '(TIADA)',
               bulan: clean(r[COL.BULAN]),
               balai: clean(r[COL.BALAI]) || '(TIADA)',
+              callCard: clean(r[COL.CALL_CARD]) || '-',
               kategori: clean(r[COL.KATEGORI]) || '(TIADA)',
               subKategori1: clean(r[COL.SUB_KATEGORI_1]) || '(TIADA)',
               subKategori2: clean(r[COL.SUB_KATEGORI_2]) || '(TIADA)',
@@ -4015,6 +4464,7 @@
           initChartToolbars();
           initTableMetricsDropdown();
           FilterPanel.init();
+          initPageNav();
           applyFilter();
           set('lastUpdate', formatDateTime(new Date()));
           document.getElementById('loading').style.display = 'none';
@@ -4027,48 +4477,255 @@
         }
       }
 
+      /* ═══ SUSUNAN KOLUM TAB DATA ═══ */
+      const TABLE_COLS = [
+        { idx: COL.BIL, label: 'BIL' },
+        { idx: COL.TAHUN, label: 'Tahun' },
+        { idx: COL.MONSUN, label: 'Fasa Monsun' },
+        { idx: COL.BULAN, label: 'Bulan' },
+        { idx: 'hari', label: 'Day' },
+        { idx: COL.TARIKH, label: 'Tarikh' },
+        { idx: COL.DAERAH, label: 'Daerah' },
+        { idx: COL.ZON, label: 'Zon' },
+        { idx: COL.BALAI, label: 'Balai' },
+        { idx: COL.CALL_CARD, label: 'Call Card' },
+        { idx: COL.KATEGORI, label: 'Kategori' },
+        { idx: COL.SUB_KATEGORI_1, label: 'Sub Kat 1' },
+        { idx: COL.SUB_KATEGORI_2, label: 'Sub Kat 2' },
+        { idx: COL.JENIS, label: 'Jenis' },
+        { idx: 'rt', label: 'RT (min)' },
+        { idx: 'statusOperasi', label: 'Status Ops' },
+      ];
+
+      /* ═══ COLUMN FILTER ═══ */
+      const COL_FILTERS = {};
+      let cfCurrentCol = null;
+      let cfTempSelected = new Set();
+
+      function getColDisplayValue(d, colKey) {
+        if (colKey === 'hari') return d.hari || '';
+        if (colKey === 'rt') return d.rt != null ? d.rt.toFixed(1) : '';
+        if (colKey === 'statusOperasi') return d.statusOperasi || '';
+        const idx = +colKey;
+        if (idx === COL.BIL) return d.bil;
+        if (idx === COL.TAHUN) return d.tahun;
+        if (idx === COL.MONSUN) return d.monsun;
+        if (idx === COL.BULAN) return d.bulan;
+        if (idx === COL.TARIKH) return d.tarikhStr;
+        if (idx === COL.DAERAH) return d.daerah;
+        if (idx === COL.ZON) return d.zon;
+        if (idx === COL.BALAI) return d.balai;
+        if (idx === COL.CALL_CARD) return d.callCard;
+        if (idx === COL.KATEGORI) return d.kategori;
+        if (idx === COL.SUB_KATEGORI_1) return d.subKategori1;
+        if (idx === COL.SUB_KATEGORI_2) return d.subKategori2;
+        if (idx === COL.JENIS) return d.jenis;
+        return '';
+      }
+
       function buildTableHeaders() {
-        const cols = [
-          { idx: COL.BIL, label: 'BIL' },
-          { idx: COL.TARIKH, label: 'Tarikh' },
-          { idx: 'hari', label: 'Day' },
-          { idx: COL.BALAI, label: 'Balai' },
-          { idx: COL.ZON, label: 'Zon' },
-          { idx: COL.DAERAH, label: 'Daerah' },
-          { idx: COL.KATEGORI, label: 'Kategori' },
-          { idx: COL.SUB_KATEGORI_1, label: 'Sub Kat 1' },
-          { idx: COL.SUB_KATEGORI_2, label: 'Sub Kat 2' },
-          { idx: COL.JENIS, label: 'Jenis' },
-          { idx: COL.SHIF, label: 'Shif' },
-          { idx: COL.GAMBUT, label: 'Gambut' },
-          { idx: COL.MASA_OPERASI, label: 'Tempoh Ops' },
-          { idx: 'statusOperasi', label: 'Status Ops' },
-          { idx: COL.KAT_BALAI, label: 'Kat. Balai' },
-          { idx: COL.JARAK, label: 'Jarak (km)' },
-          { idx: COL.JAM_OPERASI, label: 'Jam Ops' },
-          { idx: 'rt', label: 'RT (min)' },
-          { idx: COL.STATUS_KPI_RT10, label: 'Status RT' },
-          { idx: COL.STATUS_KPI_ACK, label: 'KPI Ack' },
-        ];
-        document.getElementById('tableHead').innerHTML = cols
-          .map((c) => `<th data-col="${c.idx}">${c.label}</th>`)
-          .join('');
-        document.querySelectorAll('#dataTable thead th').forEach((th) => {
-          th.addEventListener('click', () => {
+        const thead = document.getElementById('tableHead');
+        thead.innerHTML = TABLE_COLS.map((c) => {
+          const hasFilter =
+            COL_FILTERS[String(c.idx)] && COL_FILTERS[String(c.idx)].size > 0;
+          return `<th data-col="${c.idx}">
+      <span class="th-label">${c.label}</span>
+      <button type="button" class="cf-btn ${
+        hasFilter ? 'active' : ''
+      }" data-cf-col="${c.idx}" title="Tapis kolum ini">
+        <svg viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      </button>
+    </th>`;
+        }).join('');
+
+        thead.querySelectorAll('th').forEach((th) => {
+          th.addEventListener('click', (e) => {
+            if (e.target.closest('.cf-btn')) return;
             const col = th.dataset.col;
             if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
             else {
               sortCol = col;
               sortDir = 'asc';
             }
-            document
-              .querySelectorAll('#dataTable thead th')
-              .forEach((t) => t.classList.remove('sorted-asc', 'sorted-desc'));
+            thead
+              .querySelectorAll('th')
+              .forEach((t) =>
+                t.classList.remove('sorted-asc', 'sorted-desc')
+              );
             th.classList.add(sortDir === 'asc' ? 'sorted-asc' : 'sorted-desc');
             renderTable();
           });
         });
+
+        thead.querySelectorAll('.cf-btn').forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openColFilter(btn.dataset.cfCol, btn);
+          });
+        });
       }
+
+      function getBaseRowsWithFilters(rows, filterMap) {
+        let out = [...rows];
+        Object.entries(filterMap).forEach(([k, set]) => {
+          if (set && set.size > 0) {
+            out = out.filter((d) =>
+              set.has(getColDisplayValue(d, k) || '(kosong)')
+            );
+          }
+        });
+        return out;
+      }
+
+      function openColFilter(colKey, anchorBtn) {
+        cfCurrentCol = colKey;
+        const dd = document.getElementById('cfDropdown');
+
+        const otherFilters = { ...COL_FILTERS };
+        delete otherFilters[colKey];
+        const baseRows = getBaseRowsWithFilters(FILTERED, otherFilters);
+
+        const counts = {};
+        baseRows.forEach((d) => {
+          const v = getColDisplayValue(d, colKey) || '(kosong)';
+          counts[v] = (counts[v] || 0) + 1;
+        });
+        const values = Object.keys(counts).sort((a, b) =>
+          a.localeCompare(b, 'ms', { numeric: true })
+        );
+
+        const cur = COL_FILTERS[colKey];
+        cfTempSelected =
+          cur && cur.size > 0 ? new Set([...cur]) : new Set(values);
+
+        dd.innerHTML = `
+    <div class="cf-search-wrap">
+      <svg class="ico" viewBox="0 0 24 24" style="width:14px;height:14px;color:var(--text-subtle)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="cf-search" placeholder="Cari..." id="cfSearch" />
+    </div>
+    <div class="cf-actions">
+      <button type="button" id="cfSelectAll">Pilih Semua</button>
+      <button type="button" id="cfClearAll">Kosongkan</button>
+    </div>
+    <div class="cf-options" id="cfOptions"></div>
+    <div class="cf-footer">
+      <span id="cfCount"></span>
+      <div>
+        <button type="button" class="cf-reset" id="cfReset">Reset</button>
+        <button type="button" id="cfApply">Guna</button>
+      </div>
+    </div>`;
+
+        dd.hidden = false;
+
+        requestAnimationFrame(() => {
+          const rect = anchorBtn.getBoundingClientRect();
+          const ddRect = dd.getBoundingClientRect();
+          let top = rect.bottom + window.scrollY + 4;
+          let left = rect.right + window.scrollX - ddRect.width;
+          if (left < 8) left = 8;
+          const maxLeft = window.innerWidth - ddRect.width - 8;
+          if (left > maxLeft) left = maxLeft;
+          const spaceBelow = window.innerHeight - rect.bottom;
+          if (spaceBelow < ddRect.height + 20) {
+            top = rect.top + window.scrollY - ddRect.height - 4;
+          }
+          dd.style.position = 'absolute';
+          dd.style.top = top + 'px';
+          dd.style.left = left + 'px';
+        });
+
+        renderCfOptions(values, counts);
+
+        document
+          .getElementById('cfSearch')
+          .addEventListener('input', (e) => {
+            renderCfOptions(values, counts, e.target.value);
+          });
+        document
+          .getElementById('cfSelectAll')
+          .addEventListener('click', () => {
+            cfTempSelected = new Set(values);
+            renderCfOptions(
+              values,
+              counts,
+              document.getElementById('cfSearch').value
+            );
+          });
+        document
+          .getElementById('cfClearAll')
+          .addEventListener('click', () => {
+            cfTempSelected = new Set();
+            renderCfOptions(
+              values,
+              counts,
+              document.getElementById('cfSearch').value
+            );
+          });
+        document.getElementById('cfReset').addEventListener('click', () => {
+          delete COL_FILTERS[colKey];
+          closeColFilter();
+          buildTableHeaders();
+          renderTable();
+        });
+        document.getElementById('cfApply').addEventListener('click', () => {
+          if (cfTempSelected.size === values.length) {
+            delete COL_FILTERS[colKey];
+          } else {
+            COL_FILTERS[colKey] = new Set([...cfTempSelected]);
+          }
+          closeColFilter();
+          buildTableHeaders();
+          renderTable();
+        });
+      }
+
+      function renderCfOptions(allValues, counts, filter = '') {
+        const listEl = document.getElementById('cfOptions');
+        const f = filter.toLowerCase();
+        const list = allValues.filter((v) => v.toLowerCase().includes(f));
+        if (list.length === 0) {
+          listEl.innerHTML = `<div style="padding:12px;text-align:center;color:var(--text-subtle);font-size:11.5px;font-style:italic;">Tiada padanan</div>`;
+        } else {
+          listEl.innerHTML = list
+            .map((v) => {
+              const checked = cfTempSelected.has(v) ? 'checked' : '';
+              const safe = String(v).replace(/"/g, '&quot;');
+              return `<label class="cf-opt"><input type="checkbox" value="${safe}" ${checked} /><span title="${safe}">${v}</span><span class="cf-cnt">${counts[v]}</span></label>`;
+            })
+            .join('');
+          listEl
+            .querySelectorAll('input[type=checkbox]')
+            .forEach((cb) => {
+              cb.addEventListener('change', () => {
+                if (cb.checked) cfTempSelected.add(cb.value);
+                else cfTempSelected.delete(cb.value);
+                updateCfCount();
+              });
+            });
+        }
+        updateCfCount();
+      }
+
+      function updateCfCount() {
+        const el = document.getElementById('cfCount');
+        if (!el) return;
+        el.textContent = `${cfTempSelected.size} dipilih`;
+      }
+
+      function closeColFilter() {
+        const dd = document.getElementById('cfDropdown');
+        if (dd) dd.hidden = true;
+        cfCurrentCol = null;
+      }
+
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#cfDropdown') && !e.target.closest('.cf-btn'))
+          closeColFilter();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeColFilter();
+      });
 
       function populateFilters() {
         MultiSelect.create(
@@ -4209,6 +4866,8 @@
 
       function resetFilter() {
         MultiSelect.clearAll();
+        Object.keys(COL_FILTERS).forEach((k) => delete COL_FILTERS[k]);
+        buildTableHeaders();
         const dates = RAW_DATA.map((d) => d.tarikh)
           .filter(Boolean)
           .filter((d) => d >= MIN_DATE)
@@ -4293,6 +4952,39 @@
         FilterPanel.updateBadge();
       }
 
+      /* ═══ PAGE NAVIGATION ═══ */
+      function initPageNav() {
+        document.querySelectorAll('.page-nav-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            switchPage(btn.dataset.page);
+          });
+        });
+      }
+
+      function switchPage(pageId) {
+        currentPageView = pageId;
+        document
+          .querySelectorAll('.page-nav-btn')
+          .forEach((b) =>
+            b.classList.toggle('active', b.dataset.page === pageId)
+          );
+        document
+          .querySelectorAll('.page-content')
+          .forEach((p) =>
+            p.classList.toggle('active', p.id === 'page-' + pageId)
+          );
+
+        if (pageId === 'graf') {
+          setTimeout(() => renderCharts(), 60);
+        } else if (pageId === 'data') {
+          renderTable();
+        } else if (pageId === 'jadual') {
+          renderJadual();
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
       document.querySelectorAll('.tab-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
           document
@@ -4303,49 +4995,10 @@
             .forEach((p) => p.classList.remove('active'));
           btn.classList.add('active');
           activeTab = btn.dataset.tab;
-          lastGrafTab = activeTab;
           document.getElementById('panel-' + activeTab).classList.add('active');
           setTimeout(() => renderCharts(), 50);
         });
       });
-
-      function setViewMode(mode) {
-        viewMode = mode;
-        document
-          .querySelectorAll('.mode-btn')
-          .forEach((b) =>
-            b.classList.toggle('active', b.dataset.mode === mode)
-          );
-        const tabsEl = document.getElementById('tabs');
-        document
-          .querySelectorAll('.tab-panel')
-          .forEach((p) => p.classList.remove('active'));
-        if (mode === 'data') {
-          tabsEl.style.display = 'none';
-          document.getElementById('panel-table').classList.add('active');
-          renderTable();
-        } else if (mode === 'jadual') {
-          tabsEl.style.display = 'none';
-          document.getElementById('panel-jadual').classList.add('active');
-          renderJadual();
-        } else {
-          tabsEl.style.display = 'flex';
-          document
-            .querySelectorAll('.tab-btn')
-            .forEach((b) =>
-              b.classList.toggle('active', b.dataset.tab === lastGrafTab)
-            );
-          document
-            .getElementById('panel-' + lastGrafTab)
-            .classList.add('active');
-          setTimeout(() => renderCharts(), 50);
-        }
-      }
-      document
-        .querySelectorAll('.mode-btn')
-        .forEach((btn) =>
-          btn.addEventListener('click', () => setViewMode(btn.dataset.mode))
-        );
 
       function pct(num, den) {
         return den ? ((num / den) * 100).toFixed(1) + '%' : '-';
@@ -4360,7 +5013,9 @@
         const kebakaran = FILTERED.filter((d) =>
           isKebakaran(d.kategori)
         ).length;
-        const penyelamatan = FILTERED.filter((d) => isPenyelamatan(d)).length;
+        const penyelamatan = FILTERED.filter((d) =>
+          isPenyelamatan(d)
+        ).length;
         const rtList = FILTERED.map((d) => d.rt).filter((v) => v != null);
         const avgRT = rtList.length
           ? (rtList.reduce((a, b) => a + b, 0) / rtList.length).toFixed(1)
@@ -4419,10 +5074,21 @@
         set('kpiJamOps', totalJam.toFixed(0).toLocaleString());
       }
 
-      /* ═══ KAD DINAMIK MENGIKUT KATEGORI ═══ */
+      let kategoriShowAll = false;
+
+      function kategoriToneClass(cat) {
+        const c = String(cat).toUpperCase();
+        if (/KEBAKARAN/.test(c) && !/SELAIN/i.test(c)) return 'tone-danger';
+        if (/MENYELAMAT|PENYELAMAT/.test(c)) return 'tone-success';
+        if (/TUGAS/.test(c)) return 'tone-warning';
+        if (/KHIDMAT|BANTUAN/.test(c)) return '';
+        return 'tone-gold';
+      }
+
       function renderKategoriCards() {
-        const container = document.getElementById('kategoriStatGrid');
-        if (!container) return;
+        const listEl = document.getElementById('kategoriCompactList');
+        const badge = document.getElementById('badgeKatCompact');
+        if (!listEl) return;
 
         const total = FILTERED.length;
         const counts = {};
@@ -4430,62 +5096,124 @@
           const k = d.kategori || '(TIADA)';
           counts[k] = (counts[k] || 0) + 1;
         });
-
         const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
 
-        const colorFor = (cat) => {
-          const c = String(cat).toUpperCase();
-          if (/KEBAKARAN/.test(c) && !/SELAIN/i.test(c))
-            return { cls: 'stat-danger', icon: 'flame' };
-          if (/MENYELAMAT|PENYELAMAT/.test(c))
-            return { cls: 'stat-success', icon: 'rescue' };
-          if (/KHIDMAT/.test(c)) return { cls: '', icon: 'help' };
-          if (/TUGAS/.test(c)) return { cls: 'stat-warning', icon: 'task' };
-          if (/PALSU/.test(c)) return { cls: '', icon: 'warn' };
-          return { cls: 'stat-gold', icon: 'tag' };
-        };
-
-        const ICONS = {
-          flame:
-            '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
-          rescue:
-            '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>',
-          help: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-          task: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
-          warn: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-          tag: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
-        };
+        if (badge) badge.textContent = `${entries.length} kategori`;
 
         if (entries.length === 0) {
-          container.innerHTML = `<div class="stat-card"><div class="stat-label">Tiada Kategori</div><div class="stat-value">-</div><div class="stat-sub">Tiada data</div></div>`;
+          listEl.innerHTML = `<div class="compact-item"><div class="c-info"><div class="c-label">Tiada data</div></div></div>`;
+          const btn = document.getElementById('kategoriToggleBtn');
+          if (btn) btn.style.display = 'none';
+          renderKatCompactChart([]);
           return;
         }
 
-        container.innerHTML = entries
+        const show = kategoriShowAll ? entries : entries.slice(0, 5);
+
+        listEl.innerHTML = show
           .map(([cat, count]) => {
-            const { cls, icon } = colorFor(cat);
             const pctVal = total
               ? ((count / total) * 100).toFixed(1) + '%'
               : '0%';
-            const svgContent = ICONS[icon] || ICONS.tag;
-            const safeCat = String(cat).replace(/"/g, '&quot;');
+            const tone = kategoriToneClass(cat);
+            const safe = String(cat).replace(/"/g, '&quot;');
             return `
-              <div class="stat-card ${cls}">
-                <div class="stat-label" title="${safeCat}">
-                  <svg class="ico" viewBox="0 0 24 24">${svgContent}</svg>
-                  <span>${cat}</span>
+              <div class="compact-item ${tone}">
+                <div class="c-info">
+                  <div class="c-label" title="${safe}">${cat}</div>
+                  <div class="c-sub">${pctVal} daripada total</div>
                 </div>
-                <div class="stat-value">${count.toLocaleString()}</div>
-                <div class="stat-sub">${pctVal} daripada total</div>
+                <div class="c-val">${count.toLocaleString()}</div>
               </div>`;
           })
           .join('');
+
+        const btn = document.getElementById('kategoriToggleBtn');
+        if (btn) {
+          if (entries.length <= 5) {
+            btn.style.display = 'none';
+          } else {
+            btn.style.display = 'block';
+            btn.textContent = kategoriShowAll
+              ? '▲ Tunjuk Ringkas (Top 5)'
+              : `▼ Lihat Semua (${entries.length})`;
+          }
+        }
+
+        renderKatCompactChart(entries);
       }
 
-      /* ═══ KAD DINAMIK MENGIKUT SUB KATEGORI 1 ═══ */
+      function toggleKategoriList() {
+        kategoriShowAll = !kategoriShowAll;
+        renderKategoriCards();
+      }
+
+      function renderKatCompactChart(entries) {
+        const canvas = document.getElementById('chartKatCompact');
+        if (!canvas) return;
+        if (CHARTS.chartKatCompact) {
+          try {
+            CHARTS.chartKatCompact.destroy();
+          } catch (e) {}
+          delete CHARTS.chartKatCompact;
+        }
+        if (!entries.length) return;
+
+        const labels = entries.map((e) => e[0]);
+        const values = entries.map((e) => e[1]);
+        const toneHex = (cat) => {
+          const c = String(cat).toUpperCase();
+          if (/KEBAKARAN/.test(c) && !/SELAIN/i.test(c)) return '#D97757';
+          if (/MENYELAMAT|PENYELAMAT/.test(c)) return '#8BA888';
+          if (/TUGAS/.test(c)) return '#C4A45C';
+          if (/KHIDMAT/.test(c)) return '#3B6EA5';
+          return '#A07AA5';
+        };
+        const colors = labels.map((l, i) =>
+          hexToRgba(toneHex(l) || PALETTE[i % PALETTE.length], 0.82)
+        );
+
+        CHARTS.chartKatCompact = new Chart(canvas.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels,
+            datasets: [
+              {
+                data: values,
+                backgroundColor: colors,
+                borderColor: '#fff',
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: makeOpts({
+            plugins: {
+              legend: {
+                position: 'right',
+                labels: { font: { size: 10 }, boxWidth: 10, padding: 8 },
+              },
+            },
+            scales: undefined,
+          }),
+        });
+      }
+
+      function subToneClass(sub) {
+        const c = String(sub).toUpperCase();
+        if (/BANGUNAN|RUMAH|KEDAI|PREMIS|GEDUNG/.test(c)) return 'tone-danger';
+        if (/KENDERAAN|KERETA|MOTOSIKAL|LORI|BAS/.test(c))
+          return 'tone-warning';
+        if (/HUTAN|BELUKAR|LADANG|SAWAH|SEMAK|GAMBUT|TANAH/.test(c))
+          return 'tone-gold';
+        if (/MENYELAMAT|PENYELAMAT|MANGSA|LEMAS|BANJIR/.test(c))
+          return 'tone-success';
+        return '';
+      }
+
       function renderSubKategori1Cards() {
-        const container = document.getElementById('subKategori1StatGrid');
-        if (!container) return;
+        const scrollEl = document.getElementById('subKategoriScroll');
+        const badge = document.getElementById('badgeSubKategori');
+        if (!scrollEl) return;
 
         const total = FILTERED.length;
         const counts = {};
@@ -4493,56 +5221,28 @@
           const k = d.subKategori1 || '(TIADA)';
           counts[k] = (counts[k] || 0) + 1;
         });
-
         const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
 
-        const colorFor = (sub) => {
-          const c = String(sub).toUpperCase();
-          if (/BANGUNAN|RUMAH|KEDAI|PREMIS|GEDUNG/.test(c))
-            return { cls: 'stat-danger', icon: 'flame' };
-          if (/KENDERAAN|KERETA|MOTOSIKAL|LORI|BAS/.test(c))
-            return { cls: 'stat-warning', icon: 'task' };
-          if (/HUTAN|BELUKAR|LADANG|SAWAH|SEMAK|GAMBUT|TANAH/.test(c))
-            return { cls: 'stat-gold', icon: 'flame' };
-          if (/MENYELAMAT|PENYELAMAT|MANGSA|LEMAS|BANJIR/.test(c))
-            return { cls: 'stat-success', icon: 'rescue' };
-          if (/BANTUAN|KHIDMAT/.test(c)) return { cls: '', icon: 'help' };
-          if (/PALSU|TIADA/.test(c)) return { cls: '', icon: 'warn' };
-          return { cls: '', icon: 'tag' };
-        };
-
-        const ICONS = {
-          flame:
-            '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
-          rescue:
-            '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>',
-          help: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-          task: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
-          warn: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-          tag: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
-        };
+        if (badge)
+          badge.textContent = `${entries.length} sub kategori • skrol →`;
 
         if (entries.length === 0) {
-          container.innerHTML = `<div class="stat-card"><div class="stat-label">Tiada Sub Kategori 1</div><div class="stat-value">-</div><div class="stat-sub">Tiada data</div></div>`;
+          scrollEl.innerHTML = `<div class="mini-card"><div class="mini-label">Tiada Data</div><div class="mini-val">-</div></div>`;
           return;
         }
 
-        container.innerHTML = entries
+        scrollEl.innerHTML = entries
           .map(([sub, count]) => {
-            const { cls, icon } = colorFor(sub);
             const pctVal = total
               ? ((count / total) * 100).toFixed(1) + '%'
               : '0%';
-            const svgContent = ICONS[icon] || ICONS.tag;
-            const safeSub = String(sub).replace(/"/g, '&quot;');
+            const tone = subToneClass(sub);
+            const safe = String(sub).replace(/"/g, '&quot;');
             return `
-              <div class="stat-card ${cls}">
-                <div class="stat-label" title="${safeSub}">
-                  <svg class="ico" viewBox="0 0 24 24">${svgContent}</svg>
-                  <span>${sub}</span>
-                </div>
-                <div class="stat-value">${count.toLocaleString()}</div>
-                <div class="stat-sub">${pctVal} daripada total</div>
+              <div class="mini-card ${tone}" title="${safe}">
+                <div class="mini-label">${sub}</div>
+                <div class="mini-val">${count.toLocaleString()}</div>
+                <div class="mini-sub">${pctVal} daripada total</div>
               </div>`;
           })
           .join('');
@@ -6392,13 +7092,21 @@
           renderSingleChart(chartId)
         );
 
-        // Kad dinamik Kategori & Sub Kategori 1
         renderKategoriCards();
         renderSubKategori1Cards();
       }
 
       function renderTable() {
         let rows = [...FILTERED];
+
+        Object.entries(COL_FILTERS).forEach(([colKey, allowedSet]) => {
+          if (allowedSet && allowedSet.size > 0) {
+            rows = rows.filter((d) =>
+              allowedSet.has(getColDisplayValue(d, colKey) || '(kosong)')
+            );
+          }
+        });
+
         if (sortCol !== null) {
           rows.sort((a, b) => {
             let va, vb;
@@ -6443,29 +7151,25 @@
             (d) => `
     <tr>
       <td>${d.bil || '-'}</td>
-      <td>${d.tarikhStr}</td>
+      <td>${d.tahun || '-'}</td>
+      <td>${d.monsun}</td>
+      <td>${d.bulan || '-'}</td>
       <td>${d.hari || '-'}</td>
-      <td>${d.balai}</td>
-      <td>${d.zon}</td>
+      <td>${d.tarikhStr}</td>
       <td>${d.daerah}</td>
+      <td>${d.zon}</td>
+      <td>${d.balai}</td>
+      <td>${d.callCard || '-'}</td>
       <td>${d.kategori}</td>
       <td>${d.subKategori1}</td>
       <td>${d.subKategori2}</td>
       <td>${d.jenis}</td>
-      <td>${d.shif}</td>
-      <td>${d.gambut || '-'}</td>
-      <td>${d.tempohOperasi || d.masaOperasi || '-'}</td>
+      <td>${d.rt != null ? d.rt.toFixed(1) : '-'}</td>
       <td>${
         d.statusOperasi === 'MASIH BEROPERASI'
           ? '<span style="color:#D97757;font-weight:600;">MASIH BEROPERASI</span>'
           : 'OPERASI TAMAT'
       }</td>
-      <td>${d.katBalai}</td>
-      <td>${d.jarak ? d.jarak.toFixed(1) : '-'}</td>
-      <td>${d.jamOperasi || '-'}</td>
-      <td>${d.rt != null ? d.rt.toFixed(1) : '-'}</td>
-      <td>${d.statusKpiRt10 || '-'}</td>
-      <td>${d.statusKpiAck || '-'}</td>
     </tr>`
           )
           .join('');
